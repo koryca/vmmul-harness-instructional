@@ -26,14 +26,12 @@ void my_dgemv(int n, double* A, double* x, double* y) {
    // nthreads and thread_id so as to not taint your timings
    double sum = 0.0;
    #pragma omp parallel for reduction (+:sum)
-   {
-      for(int i = 0; i < n; i++){
-         sum = y[i*n];
-         for(int j = 0; j < n; j++){
-            sum += A[i*n+j] * x[j];
-         }
-         y[i*n] += sum;
+   for(int i = 0; i < n; i++){
+      sum = y[i*n];
+      for(int j = 0; j < n; j++){
+         sum += A[i*n+j] * x[j];
       }
+      y[i*n] += sum;
    }
 }
 
